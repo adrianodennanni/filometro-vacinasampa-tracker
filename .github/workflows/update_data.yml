@@ -1,0 +1,20 @@
+name: Collect data
+
+on:
+  schedule:
+    - cron: '15,45 * * * *'
+
+jobs:
+  Update-Data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download data and save it
+        run: ruby main.rb
+      - name: Commit changes
+        run: |
+         git config --local user.email "action@github.com"
+         git config --local user.name "GitHub Action"
+         git add .
+         git diff-index --quiet HEAD || git commit -m "VACINASAMPA Data Update" -a
+         git push origin main:main

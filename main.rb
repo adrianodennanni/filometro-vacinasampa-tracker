@@ -6,7 +6,7 @@ require 'set'
 require 'uri'
 
 # Method for cleaning strings
-NO_CAPS = ['AMA', 'AMA/UBS', 'CEP', 'CEP:', 'CSE', 'CPTM', 'UBS', 'UVIS']
+NO_CAPS = ['AMA', 'AMA/UBS', 'CEP', 'CEP:', 'COHAB', 'CSE', 'CPTM', 'UBS', 'UVIS']
 class String
   def titleize
     self.split(' ').map{|word| NO_CAPS.include?(word) ? word :  word.capitalize }.join(' ')
