@@ -2,7 +2,7 @@ name: Collect data
 
 on:
   schedule:
-    - cron: '15,45 * * * *'
+    - cron: '05,35 * * * *'
 
 jobs:
   Update-Data:
