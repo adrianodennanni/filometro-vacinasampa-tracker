@@ -1,5 +1,5 @@
 const margin = { top: 20, right: 20, bottom: 70, left: 40 };
-const width  = 1200 - margin.left - margin.right;
+const width = 400 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
 
 $(document).ready(function () {
@@ -39,16 +39,21 @@ $(document).ready(function () {
         })
         console.log(data)
 
-        var x = d3.scaleBand().rangeRound([0, width], .05).padding(0.1);
+        var x = d3.scaleBand().rangeRound([0, width], .05).padding(0);
         var y = d3.scaleLinear().range([height, 0]);
+
+
+
 
         var xAxis = d3.axisBottom()
           .scale(x)
-          .tickFormat(d3.timeFormat("%d/%m/%Y"))
+          .tickFormat(d3.timeFormat("%X"))
+          .ticks(5);
 
         var yAxis = d3.axisLeft()
           .scale(y)
-          .ticks(10);
+          .ticks(5)
+          .tickValues([1, 2, 3, 4, 5])
 
         var svg = d3.select(".graph_container").append("svg")
           .attr("width", width + margin.left + margin.right)
@@ -58,7 +63,7 @@ $(document).ready(function () {
             "translate(" + margin.left + "," + margin.top + ")");
 
         x.domain(data.map(function (d) { return d[0]; }));
-        y.domain([0, d3.max(data, function (d) { return d[1]; })]);
+        y.domain([0, 4]);
 
         svg.append("g")
           .attr("class", "x axis")
@@ -79,17 +84,33 @@ $(document).ready(function () {
           .enter().append("rect")
           .attr("x", function (d) { return x(d[0]); })
           .attr("width", x.bandwidth())
-          .attr("y", function (d) { return y(d[1]); })
-          .attr("height", function (d) { return height - y(d[1]); })
+          .attr("y", function (d) { 
+            if (d[1] == 0) {
+              // will draw a grey bar if there is no data
+              return y(4);
+            } else {
+              return y(d[1])
+              ;}})
+          .attr("height", function (d) {
+            if (d[1] == 0) {
+              // will draw a grey bar if there is no data
+              return height - y(4);
+            }
+            else 
+              return height - y(d[1]) 
+          })
           // color bar by occupancy value
-          // if occupancy is above 2, color it red
           .style("fill", function (d) {
             if (d[1] > 3)
               return "red";
             else if (d[1] > 2)
               return "yellow";
-            else
+            else if (d[1] > 1)
               return "green";
+            else if (d[1] > 0)
+              return "blue";
+            else
+              return "grey";
           })
       });
     });
