@@ -29,6 +29,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/pt-BR.min.js"
+        integrity="sha512-H1yBoUnrE7X+NeWpeZvBuy2RvrbvLEAEjX/Mu8L2ggUBja62g1z49fAboGidE5YEQyIVMCWJC9krY4/KEqkgag=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="{{ site.baseurl }}/index.js"></script>
     <title>Filômetro de Vacinação em São Paulo</title>
@@ -40,13 +43,13 @@
             local no menu abaixo:</h1>
     </div>
 
-    <div class='row justify-content-center'>
-        <div class="col-xl-4 w-100 align-self-center" id='selector'>
-            <select class="dropdown_container" style="width: 100%;"></select>
+    <div class='container-fluid'>
+        <div class='row justify-content-center'>
+            <div class="col-xl-4 w-100 align-self-center" id='selector'>
+                <select class="dropdown_container" style="width: 100%;"></select>
+            </div>
         </div>
-    </div>
 
-    <div class='container-fluid' style='height: 1500px'>
         <div class='row justify-content-center'>
             <div class='graph_container'></div>
             <div class='legend_container'></div>
