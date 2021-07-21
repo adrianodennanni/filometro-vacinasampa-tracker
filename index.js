@@ -1,6 +1,11 @@
 const margin = { top: 20, right: 20, bottom: 70, left: 40 };
-const width = 400 - margin.left - margin.right;
+const width = 800 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
+
+// define 4 shades of red to denote occupancy
+const colors = ['#E6B0AA', '#CD6155', '#922B21', '#641E16'];
+
+
 
 $(document).ready(function () {
   // Read json with d3
@@ -37,15 +42,15 @@ $(document).ready(function () {
         data.forEach(function (d) {
           d[0] = parseDate(d[0])
         })
-        console.log(data)
 
         var x = d3.scaleBand().rangeRound([0, width], .05).padding(0);
         var y = d3.scaleLinear().range([height, 0]);
 
+        // show ticks every 2 hours
         var xAxis = d3.axisBottom()
           .scale(x)
+          .ticks(d3.timeMinute, 50)
           .tickFormat(d3.timeFormat("%X"))
-          .ticks(5);
 
         var yAxis = d3.axisLeft()
           .scale(y)
@@ -65,9 +70,12 @@ $(document).ready(function () {
         svg.append('g')
           .attr('class', 'x axis')
           .attr('transform', 'translate(0,' + height + ')')
-          .call(xAxis.ticks(null).tickSize(5))
+          .call(xAxis)
           .selectAll('text')
-          .style('text-anchor', 'middle')
+          .style('text-anchor', 'end')
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-65)");
 
         svg.append('g')
           .attr('class', 'y axis')
@@ -81,34 +89,94 @@ $(document).ready(function () {
           .enter().append("rect")
           .attr("x", function (d) { return x(d[0]); })
           .attr("width", x.bandwidth())
-          .attr("y", function (d) { 
+          .attr("y", function (d) {
             if (d[1] == 0) {
               // will draw a grey bar if there is no data
               return y(4);
             } else {
               return y(d[1])
-              ;}})
+                ;
+            }
+          })
           .attr("height", function (d) {
             if (d[1] == 0) {
               // will draw a grey bar if there is no data
               return height - y(4);
             }
-            else 
-              return height - y(d[1]) 
+            else
+              return height - y(d[1])
           })
           // color bar by occupancy value
           .style("fill", function (d) {
             if (d[1] > 3)
-              return 'red';
+              return colors[3];
             else if (d[1] > 2)
-              return "yellow";
+              return colors[2];
             else if (d[1] > 1)
-              return "green";
+              return colors[1];
             else if (d[1] > 0)
-              return "blue";
+              return colors[0];
             else
               return "grey";
           })
+
+
+        // add a legend
+        var svg_container = d3.select('.legend_container').append('svg')
+          .attr('width', 100)
+          .attr('height', 150)
+          .append('g')
+
+        var legend = svg_container.selectAll('.legend')
+          .data([0, 1, 2, 3, 4])
+          .enter().append('g')
+          .attr('class', 'legend')
+          .attr('transform', function (d, i) {
+            return 'translate(0,' + i * 20 + ')';
+          }
+          );
+        legend.append('rect')
+          .attr('x', 80)
+          .attr('width', 18)
+          .attr('height', 18)
+          .style('fill', function (d) {
+            if (d > 3)
+              return colors[3];
+            else if (d > 2)
+              return colors[2];
+            else if (d > 1)
+              return colors[1];
+            else if (d > 0)
+              return colors[0];
+            else
+              return "grey";
+          }
+          );
+        legend.append('text')
+          .attr('x', 75)
+          .attr('y', 9)
+          .attr('dy', '.35em')
+          .style('text-anchor', 'end')
+          .text(function (d) {
+            if (d > 3)
+              return 'Lotado';
+            else if (d > 2)
+              return "Muita Fila";
+            else if (d > 1)
+              return "Pouca Fila";
+            else if (d > 0)
+              return "Vazio";
+            else
+              return "Fechado";
+          }
+          );
+
+
+
+
+
+
+
       });
     });
   });
