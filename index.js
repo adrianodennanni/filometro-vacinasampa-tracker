@@ -42,9 +42,6 @@ $(document).ready(function () {
         var x = d3.scaleBand().rangeRound([0, width], .05).padding(0);
         var y = d3.scaleLinear().range([height, 0]);
 
-
-
-
         var xAxis = d3.axisBottom()
           .scale(x)
           .tickFormat(d3.timeFormat("%X"))
