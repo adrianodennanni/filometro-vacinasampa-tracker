@@ -17,7 +17,7 @@ $(document).ready(function () {
     // create select2 for unidades
     $('.dropdown_container').select2({
       data: select2_data['results'],
-      placeholder: "Selecione uma Unidade",
+      placeholder: 'Selecione uma Unidade',
       allowClear: true
     });
     // function to render the graph for the selected unidade
@@ -26,8 +26,8 @@ $(document).ready(function () {
       // get the selected unidade
       var unidade_id = $('.dropdown_container').val()
       // delete charts before plotting new one
-      d3.selectAll("svg").remove()
-      d3.text("/data/unities/" + unidade_id + ".csv", function (text) {
+      d3.selectAll('svg').remove()
+      d3.text('data/unities/' + unidade_id + '.csv', function (text) {
         var data = d3.csvParseRows(text);
         // data is an array of arrays of the form [['time1', 'occupancy1'], ['time2', 'occupancy2'], ...]
         // create a d3 chart with the data
@@ -55,31 +55,31 @@ $(document).ready(function () {
           .ticks(5)
           .tickValues([1, 2, 3, 4, 5])
 
-        var svg = d3.select(".graph_container").append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-          .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+        var svg = d3.select('.graph_container').append('svg')
+          .attr('width', width + margin.left + margin.right)
+          .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+          .attr('transform',
+            'translate(' + margin.left + ',' + margin.top + ')');
 
         x.domain(data.map(function (d) { return d[0]; }));
         y.domain([0, 4]);
 
-        svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
+        svg.append('g')
+          .attr('class', 'x axis')
+          .attr('transform', 'translate(0,' + height + ')')
           .call(xAxis.ticks(null).tickSize(5))
-          .selectAll("text")
-          .style("text-anchor", "middle")
+          .selectAll('text')
+          .style('text-anchor', 'middle')
 
-        svg.append("g")
-          .attr("class", "y axis")
+        svg.append('g')
+          .attr('class', 'y axis')
           .call(yAxis.ticks(null).tickSize(0))
-          .append("text")
-          .attr("y", 6)
-          .style("text-anchor", "middle")
+          .append('text')
+          .attr('y', 6)
+          .style('text-anchor', 'middle')
 
-        svg.selectAll("bar")
+        svg.selectAll('bar')
           .data(data)
           .enter().append("rect")
           .attr("x", function (d) { return x(d[0]); })
@@ -102,7 +102,7 @@ $(document).ready(function () {
           // color bar by occupancy value
           .style("fill", function (d) {
             if (d[1] > 3)
-              return "red";
+              return 'red';
             else if (d[1] > 2)
               return "yellow";
             else if (d[1] > 1)
