@@ -27,7 +27,7 @@ $(document).ready(function () {
       var unidade_id = $('.dropdown_container').val()
       // delete charts before plotting new one
       d3.selectAll("svg").remove()
-      d3.text("/data/unities/" + unidade_id + ".csv", function (text) {
+      d3.text("{{ site.baseurl }}/data/unities/" + unidade_id + ".csv", function (text) {
         var data = d3.csvParseRows(text);
         // data is an array of arrays of the form [['time1', 'occupancy1'], ['time2', 'occupancy2'], ...]
         // create a d3 chart with the data
